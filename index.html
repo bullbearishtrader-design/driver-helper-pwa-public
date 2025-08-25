@@ -1,5 +1,64 @@
 <!DOCTYPE html>
-<html lang='en'>
-<head><meta charset='UTF-8'><title>Driver Helper</title></head>
-<body><h1>Hello Passenger PWA</h1></body>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Driver Helper PWA</title>
+<link rel="manifest" href="manifest.json">
+<style>
+  body { font-family: Arial; max-width: 500px; margin: auto; padding: 20px;}
+  h1,h2{text-align:center;}
+  input, select, button{width:100%; padding:8px; margin:5px 0;}
+  button{background:#007bff;color:#fff;border:none;border-radius:5px;}
+  button:hover{background:#0056b3;}
+</style>
+</head>
+<body>
+
+<h1>Passenger Booking PWA</h1>
+
+<h2>Booking Form</h2>
+<label>Pick-up Location</label>
+<input type="text" id="pickup" placeholder="e.g. KLIA Terminal 1">
+
+<label>Service Type</label>
+<select id="service">
+  <option value="ekonomi">Ekonomi - RM 60</option>
+  <option value="6sitter">6 Sitter - RM 75</option>
+  <option value="plus">Plus - RM 80</option>
+  <option value="exec">Exec - RM 185</option>
+</select>
+
+<label>Date & Time</label>
+<input type="datetime-local" id="datetime">
+
+<label>Payment Method</label>
+<select id="payment">
+  <option>Cash</option>
+  <option>Credit Card</option>
+</select>
+
+<button onclick="bookJob()">BOOKING NOW</button>
+
+<div id="confirmation" style="margin-top:10px;font-weight:bold;"></div>
+
+<script>
+function bookJob(){
+  const pickup=document.getElementById('pickup').value;
+  const service=document.getElementById('service').value;
+  const datetime=document.getElementById('datetime').value;
+  const payment=document.getElementById('payment').value;
+
+  let price={ekonomi:60,'6sitter':75,plus:80,exec:185}[service];
+  let commission=price*0.15;
+  const hf=new Date(datetime).getHours();
+  if((hf>=5 && hf<=10)||(hf>=17 && hf<=21)){ price*=1.25; } // HF
+
+  document.getElementById('confirmation').innerText=
+    `Booking Confirmed!\nPick-up: ${pickup}\nService: ${service}\nDateTime: ${datetime}\nPayment: ${payment}\nPrice: RM ${price.toFixed(2)}\nCommission Deduction: RM ${commission.toFixed(2)}`;
+}
+</script>
+
+</body>
 </html>
+
